@@ -1,0 +1,172 @@
+-- SEQUENCE: public.usuario_sequence
+
+-- DROP SEQUENCE public.usuario_sequence;
+
+CREATE SEQUENCE public.usuario_sequence
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.usuario_sequence
+    OWNER TO postgres;
+    
+-- ------------------------------------------------
+
+-- SEQUENCE: public.produto_sequence
+
+-- DROP SEQUENCE public.produto_sequence;
+
+CREATE SEQUENCE public.produto_sequence
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.produto_sequence
+    OWNER TO postgres;
+    
+-- -----------------------------------------------
+
+-- SEQUENCE: public.telefone_sequence
+
+-- DROP SEQUENCE public.telefone_sequence;
+
+CREATE SEQUENCE public.telefone_sequence
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.telefone_sequence
+    OWNER TO postgres;
+    
+-- -----------------------------------------------
+
+-- SEQUENCE: public.categoria_sequence
+
+-- DROP SEQUENCE public.categoria_sequence;
+
+CREATE SEQUENCE public.categoria_sequence
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.categoria_sequence
+    OWNER TO postgres;
+    
+-- -----------------------------------------------
+
+-- Table: public.usuario
+
+-- DROP TABLE public.usuario;
+
+CREATE TABLE public.usuario
+(
+    login character varying COLLATE pg_catalog."default",
+    senha character varying COLLATE pg_catalog."default",
+    id bigint NOT NULL DEFAULT nextval('produto_sequence'::regclass),
+    nome character varying(500) COLLATE pg_catalog."default",
+    cep character varying(200) COLLATE pg_catalog."default",
+    rua character varying(200) COLLATE pg_catalog."default",
+    bairro character varying(200) COLLATE pg_catalog."default",
+    cidade character varying(200) COLLATE pg_catalog."default",
+    estado character varying(200) COLLATE pg_catalog."default",
+    ibge character varying(200) COLLATE pg_catalog."default",
+    fotobase64 text COLLATE pg_catalog."default",
+    contenttype text COLLATE pg_catalog."default",
+    contenttypecurriculo text COLLATE pg_catalog."default",
+    curriculobase64 text COLLATE pg_catalog."default",
+    fotobase64miniatura text COLLATE pg_catalog."default",
+    ativo boolean,
+    sexo character varying(50) COLLATE pg_catalog."default",
+    perfil character varying(30) COLLATE pg_catalog."default",
+    CONSTRAINT usuario_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.usuario
+    OWNER to postgres;
+    
+-- -----------------------------------------------
+
+-- Table: public.categoria
+
+-- DROP TABLE public.categoria;
+
+CREATE TABLE public.categoria
+(
+    id bigint NOT NULL DEFAULT nextval('categoria_sequence'::regclass),
+    nome character varying COLLATE pg_catalog."default",
+    CONSTRAINT categoria_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.categoria
+    OWNER to postgres;
+    
+-- -----------------------------------------------
+
+-- Table: public.produto
+
+-- DROP TABLE public.produto;
+
+CREATE TABLE public.produto
+(
+    id bigint NOT NULL DEFAULT nextval('produto_sequence'::regclass),
+    nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    valor numeric(8,4) NOT NULL,
+    quantidade bigint NOT NULL,
+    categoria_id bigint NOT NULL,
+    CONSTRAINT produto_pkey PRIMARY KEY (id),
+    CONSTRAINT categoria_fkey FOREIGN KEY (categoria_id)
+        REFERENCES public.categoria (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.produto
+    OWNER to postgres;
+    
+-- -----------------------------------------------
+
+-- Table: public.telefone
+
+-- DROP TABLE public.telefone;
+
+CREATE TABLE public.telefone
+(
+    numero character varying(500) COLLATE pg_catalog."default",
+    tipo character varying(500) COLLATE pg_catalog."default",
+    id bigint NOT NULL DEFAULT nextval('telefone_sequence'::regclass),
+    usuario_id bigint NOT NULL,
+    CONSTRAINT telefone_pkey PRIMARY KEY (id),
+    CONSTRAINT usuario_fkey FOREIGN KEY (usuario_id)
+        REFERENCES public.usuario (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.telefone
+    OWNER to postgres;
+    
+-- -----------------------------------------------

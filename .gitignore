@@ -1,0 +1,28 @@
+**/bin
+**/.metadata
+**/.settings
+<<<<<<< HEAD
+**/.scannerwork
+**/.project
+**/.classpath
+**/target
+**/build
+=======
+**/.project
+**/.classpath
+**/target
+>>>>>>> 87ed9c211bf79617ff2793e4e76016299460c0d0
+**/*.log
+**/temp
+**/test-output
+**/dist
+**/.tmp
+**/lib/vendors
+**/src/main/webapp
+.tern-project
+src/main/resources/rebel.xml
+nb-configuration.xml
+customs.json
+vim.exe.stackdump
+/.idea/
+*.iml
